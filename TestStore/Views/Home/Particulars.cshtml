@@ -1,0 +1,171 @@
+﻿@model TestStore.Models.DescriptionViewModel
+
+
+<div class="main clearfix">
+    <div class="header clearfix">
+        <div class="logo"><a href=@Url.Action("Index")>Tranding Place</a></div>
+        <div class="intro">Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147</div>
+
+        <ul class="main-nav">
+            <li><a href=@Url.Action("Index")>SALE</a></li>
+            <li><a href=@Url.Action("Add")>INFO</a></li>
+            <li><a href=@Url.Action("Contact", "Admin")>CONTACT</a></li>
+            <li class="active"><a href=@Url.Action("Particulars")>PARTICULARS</a></li>
+
+        </ul>
+
+
+    </div>
+    <div class="holder clearfix">
+        <div class="sidebar">
+            <div class="border-section">
+                <div class="bottom">
+                    <h3>Find a Property</h3>
+                    <ul class="vert-nav2">
+                        <li><a href=@Url.Action("Particulars") class="main-btn"><span>To Buy</span></a></li>
+                        <li><a href=@Url.Action("Particulars") class="main-btn"><span>To Rent</span></a></li>
+                        <li><a href=@Url.Action("Particulars") class="main-btn"><span>Register With Us</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="left-nav">
+                <ul class="vert-nav">
+                    <li><a href=@Url.Action("Particulars")>About Us</a></li>
+                    <li><a href=@Url.Action("Particulars")>Mortgages</a></li>
+                    <li><a href=@Url.Action("Particulars")>Property Lawyers</a></li>
+                    <li><a href=@Url.Action("Particulars")>Surveyors</a></li>
+                    <li><a href=@Url.Action("Particulars")>Schools</a></li>
+                    <li><a href=@Url.Action("Particulars")>Testimonials</a></li>
+                    <li><a href=@Url.Action("Particulars")>Jargon Buster</a></li>
+                    <li><a href=@Url.Action("Particulars")>News</a></li>
+                    <li><a href=@Url.Action("Particulars")>Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="border-section">
+                <div class="bottom">
+                    <div class="logos-sec">
+                       <img src="~/" alt="">
+                        <a href=@Url.Action("Particulars")><img src="~/C" alt=""></a>
+                        <a href=@Url.Action("Particulars")><img src="./PARTICULARS_files/logo-3.gif" alt=""></a>
+                        <a href=@Url.Action("Particulars")><img src="./PARTICULARS_files/logo-4.gif" alt=""></a>
+                        <a href=@Url.Action("Particulars")><img src="./PARTICULARS_files/logo-5.gif" alt=""></a>
+                        <a href=@Url.Action("Particulars")><img src="./PARTICULARS_files/logo-6.gif" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <h1>@Html.DisplayFor(model => model.Location) @Html.Hidden("location", Model.Location)</h1>
+           
+            <div class="clearfix section">
+                <img src="~/Content/img/image01.jpg" alt="" class="img-left">
+                <div class="title">
+                    @Html.Label("Price: £")
+                    @Html.DisplayFor(model => model.Price)
+                    @Html.Label(", ")
+                    @Html.DisplayFor(model => model.Tenure)
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href=@Url.Action("Description", "Admin", new {id = Model.RealEstateId})><img src="~/Content/img/btn-arrow.gif" alt="Редактировать"/></a>
+                    }
+                </div>
+                <p>
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </p>
+            </div>
+            <div class="clearfix">
+                <div class="section-1">
+                    @Html.Raw(ViewBag.LongDescription)
+                   <div class="border-sec-1">
+                        <div class="top">
+                            <div class="bottom">
+                                <p>
+                                    Whilst every care is taken these particulars are intended as a general guide. All measurements are subject to a margin of error. Trading Places have not tested any of the appliances, services of connections and therefore cannot verify that they are in working order of fir for the purpose. This includes heating systems. All photographs and floor plans are for guidance purposes only and some photographs mat have been taken using a wide angle lens. Fixtures and
+                                    fittings are only included subject to arrangement. Reference made to the tenure and where applicable lease term is based on information supplied by Trading Places and we strongly recommended potental buyers seek verification on tenure and lease term as well a all other matters through their solicitor.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-2">
+                    <ul class="vert-nav2">
+                        <li><a href=@Url.Action("Particulars") class="main-btn"><span>To Buy</span></a></li>
+                        <li><a href=@Url.Action("Particulars") class="main-btn"><span>To Rent</span></a></li>
+                        <li><a href=@Url.Action("Particulars") class="main-btn"><span>Register With Us</span></a></li>
+                    </ul>
+                    <div class="border-sec-1">
+                        <div class="top">
+                            <div class="bottom">
+                                <div class="color-box">
+                                    <h5>Seller’s Corner</h5>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-sec-1">
+                        <div class="top">
+                            <div class="bottom clearfix">
+                                <div class="image-container">
+                                    @foreach (var item in Model.PhotoForGalleryDto)
+                                    {
+                                        <a class="gallery" rel="group" href="@Html.DisplayTextFor(model => item.UrlImage)">
+                                            <img src="@Html.DisplayTextFor(model => item.UrlImage)" alt="" width="140" height="93">
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-sec-1">
+                        <div class="top">
+                            <div class="bottom clearfix">
+                                <div class="map-section" id="map-canvas"></div>
+                                <a class="main-btn2" href=@Url.Action("Particulars")><span><strong>View on Street View <em>»</em></strong></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-sec-1">
+                        <div class="top">
+                            <div class="bottom clearfix">
+                                <img src="~/Content/img/img5.gif" alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-sec-1">
+                        <div class="top">
+                            <div class="bottom clearfix">
+                                <img src="~/Content/img/img6.gif" alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer-bg">
+    <div class="footer">
+        <ul class="nav">
+            <li><a href=@Url.Action("Particulars")>Home</a></li>
+            <li><a href=@Url.Action("Particulars")>About us</a></li>
+            <li><a href=@Url.Action("Particulars")>Mortgages</a></li>
+            <li><a href=@Url.Action("Particulars")>Property lawyers</a></li>
+            <li><a href=@Url.Action("Particulars")>Surveyors</a></li>
+            <li><a href=@Url.Action("Particulars")>Schools</a></li>
+            <li><a href=@Url.Action("Particulars")>Testimonials</a></li>
+            <li><a href=@Url.Action("Particulars")>Jargon buster</a></li>
+            <li><a href=@Url.Action("Particulars")>News</a></li>
+            <li><a href=@Url.Action("Particulars")>Contact Us</a></li>
+        </ul>
+        <div class="footer-logo"><img src="~/Content/img/logo.png" alt="">
+        </div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+<script src="~/Scripts/geocoding-address.js"></script>
+<script src="~/Scripts/fancybox/jquery.easing.1.3.js"></script>
+<script src="~/Scripts/fancybox/jquery.fancybox-1.2.1.pack.js"></script>
+<script src="~/Scripts/jquery-inputFancybox.js"></script>
+

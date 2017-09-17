@@ -1,0 +1,130 @@
+﻿@model TestStore.Models.EditDescriptionViewModel
+
+<div class="main clearfix">
+    <div class="header clearfix">
+        <div class="logo"><a href=@Url.Action("Description", "Admin")>Tranding Place</a></div>
+        <div class="intro">@Html.Label("Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147")</div>
+        <ul class="main-nav">
+            <li class="active"><a href=@Url.Action("Description", "Admin")>For Sale</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>To Let</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>CMS</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>News</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Change Password</a></li>
+        </ul>
+    </div>
+    <div class="holder clearfix">
+    <div class="sidebar">
+        <div class="border-section">
+            <div class="bottom">
+                <h3>Properties Menu</h3>
+                <ul class="vert-nav2">
+                    <li><a class="main-btn" href=@Url.Action("Description", "Admin")><span>Main Information</span></a></li>
+                    <li class="active"><a class="main-btn" href=@Url.Action("Description", "Admin")><span>Descriptions</span></a></li>
+                    <li><a class="main-btn" href=@Url.Action("Description", "Admin")><span>Images</span></a></li>
+                    <li><a class="main-btn" href=@Url.Action("Description", "Admin")><span>2D Plan</span></a></li>
+                    <li><a class="main-btn" href=@Url.Action("Description", "Admin")><span>3D Plan</span></a></li>
+                    <li><a class="main-btn" href=@Url.Action("Description", "Admin")><span>EPC</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+        @using (Html.BeginForm("Description", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="content">
+                <h2>Descriptions </h2>
+                @Html.HiddenFor(model=>Model.Id)
+                @Html.HiddenFor(model => model.RealEstateId)
+                
+                <div class="short-description">
+                    @Html.Label("Выберите фотографии для галереи")<br />
+                    <input type="file" name="Image" id="uploads"  multiple accept="image/*, image/png, image/gif, image/jpeg, image/jpg" />
+                    <button id="AddNewPhoto">Загрузить</button><br/><br/>
+                    <div id="photos">
+                        @Html.Partial("PhotosList", Model.PhotosDto)
+                    </div>
+                </div>
+                
+                <div class="short-description">
+                    @Html.Label("Short Description")
+                    @Html.TextAreaFor(model => model.ShortDescription)
+                </div>
+                <div class="long-description">
+                    @Html.Label("Long Description")
+                    @Html.EditorFor(model => model.LongDescription)
+                    <ul class="buttons-bar clearfix">
+                        <li><a href=@Url.Action("Particulars", "Home", new {id = Model.RealEstateId}) class="btn2"><span>Cancel</span></a>
+                        </li>
+                        <li><input type="submit" value="Save" class="btn1"/></li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="footer-bg">
+    <div class="footer">
+        <ul class="nav">
+            <li><a href=@Url.Action("Description", "Admin")>Home</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>About us</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Mortgages</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Property lawyers</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Surveyors</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Schools</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Testimonials</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Jargon buster</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>News</a></li>
+            <li><a href=@Url.Action("Description", "Admin")>Contact Us</a></li>
+        </ul>
+        <div class="footer-logo"><img src="./admin-descriptions_files/logo.png" alt=""></div>
+    </div>
+</div>
+<script>$("tr:odd").addClass('odd');</script>
+<script type="text/javascript">
+
+    $('#AddNewPhoto').click(function(e) {
+        e.preventDefault();
+        var files = $('#uploads')[0].files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadPhoto", "Admin", new {ViewBag.Id})',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function(result) {
+                        $('#photos').empty().append(result);
+                        $('#uploads').attr('value', "");
+                    },
+
+                    error: function(xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            } else {
+                alert("Браузер не поддерживает загрузку файлов HTML5!");
+            }
+        }
+    });
+</script>
+
+<script type="text/javascript">
+        $('a#deleteImage').click(function(e) {
+            e.preventDefault();
+            var fileName = event.target.src;
+            var id = $('#Id').attr('value');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeleteImage", "Admin")',
+                data: { name: fileName, realId: id },
+                success: function(result) {
+                    $('#photos').empty().append(result);
+                }
+            });
+    })
+</script>

@@ -1,0 +1,246 @@
+﻿@using System.Net.Mime
+@using System.Web.WebPages.Html
+@using TestStore.Models;
+
+@model TestStore.Models.EditRealEstateViewModel
+
+<div class="main clearfix">
+    <div class="header clearfix">
+        <div class="logo"><a href=@Url.Action("Index")>Tranding Place</a>
+        </div>
+        <div class="intro">Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147</div>
+        <ul class="main-nav">
+            <li><a href=@Url.Action("Index")>SALE</a></li>
+            <li class="active"><a href=@Url.Action("Add")>INFO</a></li>
+            <li><a href=@Url.Action("Contact", "Admin")>CONTACT</a></li>
+            <li><a href=@Url.Action("Particulars")>PARTICULARS</a></li>
+
+
+        </ul>
+    </div>
+    <div class="holder clearfix">
+        <div class="sidebar">
+            <div class="border-section">
+                <div class="bottom">
+                    <h3>Properties Menu</h3>
+                    <ul class="vert-nav2">
+                        <li class="active"><a class="main-btn" href=@Url.Action("Index")><span>Main Information</span></a></li>
+                        <li><a class="main-btn" href="@Url.Action("Index")"><span>Descriptions</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index")><span>Images</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index")><span>2D Plan</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index")><span>3D Plan</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index")><span>EPC</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="content">
+                <h2>Main Information </h2>
+                <div class="main-info-form">
+                    <div class="row clearfix">
+                        @Html.HiddenFor(model => model.RealEstateDto.Id)
+                        @Html.LabelFor(model => model.RealEstateDto.RealEstateID)
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.RealEstateDto.RealEstateID)
+                        </div>
+                       
+                        @Html.LabelFor(model => model.RealEstateDto.Price)
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.RealEstateDto.Price)
+                        </div>
+                        @Html.LabelFor(model => model.RealEstateDto.Postcode)
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.RealEstateDto.Postcode)
+                            @Html.ValidationMessageFor(model => model.RealEstateDto.Postcode)
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <label for="address">Address</label>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.RealEstateDto.Location)
+                            @*@Html.ValidationMessageFor(model => model.RealEstateDto.Location)*@
+                        </div>
+
+                        @Html.LabelFor(model => model.RealEstateDto.Area)
+                        @Html.EditorFor(model => model.RealEstateDto.Area)
+                        @*@Html.ValidationMessageFor(model => model.RealEstateDto.Area)*@
+                    </div>
+                    <div class="row clearfix">
+                        @Html.LabelFor(model => model.RealEstateDto.Tenure)
+                        @Html.DropDownListFor(model => model.RealEstateDto.Tenure, new SelectList(new[] { "Freehold", "Leasehold"}))
+                    </div>
+                    <div class="row clearfix">
+                        <div class="editor-field">
+                            @Html.LabelFor(model => model.RealEstateDto.SSTC)
+                            @Html.CheckBoxFor(model => model.RealEstateDto.SSTC)
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col">
+                            <div class="row">
+                                @Html.LabelFor(model => model.RealEstateDto.Bedrooms)
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.RealEstateDto.Bedrooms, new SelectList(new[] { "1", "2", "3"}))
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(model => model.RealEstateDto.Bathrooms)
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.RealEstateDto.Bathrooms, new SelectList(new[] { "1", "2", "3"}))
+                                </div>
+                            </div>
+                            <div class="row pad0">
+                                @Html.LabelFor(model => model.RealEstateDto.Garden)
+                                @Html.CheckBoxFor(model => model.RealEstateDto.Garden)
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row clearfix">
+                                @Html.LabelFor(model => model.RealEstateDto.LivingRooms)
+                                @Html.DropDownListFor(model => model.RealEstateDto.LivingRooms, new SelectList(new[] { "1", "2", "3"}))
+                            </div>
+                            <div class="row clearfix">
+                                @Html.LabelFor(model => model.RealEstateDto.Shower)
+                                @Html.DropDownListFor(model => model.RealEstateDto.Shower, new SelectList(new[] { "1", "2", "3"}))
+                                @*@Html.ValidationMessageFor(model => model.RealEstateDto.Shower)*@
+                            </div>
+                            <div class="row pad0 clearfix">
+                                @Html.LabelFor(model => model.RealEstateDto.Parking)
+                                @Html.CheckBoxFor(model => model.RealEstateDto.Parking)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix rel">
+                        @Html.Label("Main Photo")
+                        @using (Html.BeginForm())
+                        {
+                            <input type="file" name="Image" id="uploadImage"/>
+                            <button id="DownloadImage">Загрузить</button>
+                        }
+                        <div class="uploaded-img">
+                            <div id="infoForImage">
+                                @Html.HiddenFor(model => model.RealEstateDto.ImagePath)
+                                @Html.HiddenFor(model => model.RealEstateDto.ImageMimeType)
+                            </div>
+                            
+
+                            <div class="img">
+                                @{
+                                    if (ViewBag.ImagePath != null)
+                                    {
+                                        <img id="mainInfoImage" width="200" height="200" src="@ViewBag.ImagePath"/>
+                                        <a id="deleteImage" class="del" href=@Url.Action("DeleteImage", "Home")>Delete Image</a>
+                                    }
+                                    else
+                                    {
+                                        <img id="mainInfoImage" hidden="true" width="200" height="200" src=""/>
+                                        <a id="deleteImage" hidden="true" class="del" href=@Url.Action("DeleteImage", "Home")>Delete Image</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.Label("Sale's Corner")
+                        <div class="multi-line">
+                            @Html.TextAreaFor(model => model.RealEstateDto.SalesCorner, new {@class = "s-corner"})
+                        </div>
+                        <br/>
+                        <div class="row">
+                            @Html.Label("Property status")
+                            @*<label for="property-status">Property status</label>*@
+                            <div>
+                                @*@Html.Partial("EditorTemplates/Enum", Model.RealEstateDto.PropertyStatus)*@
+                                @Html.DropDownListFor(model => model.RealEstateDto.PropertyStatus, new SelectList(new[] {"Live", "Not live"}))
+                                @*@Html.ValidationMessageFor(model => model.RealEstateDto.PropertyStatus)*@
+                            </div>
+                            <p class="hint">
+                                Hide a property on your website, PropertySpring, and all data feeds (Rightmove,
+                                etc).
+                                <br>
+                                N/B/ Changes may take up to 24 hours to take effect on Rightmove.
+                            </p>
+                        </div>
+                    </div>
+                    <ul class="buttons-bar clearfix">
+                        <li><a href=@Url.Action("Index") class="btn2 "><span>Cancel</span></a></li>
+                        <li><input type="submit" value="Save" class="btn1"/></li>
+                    </ul>
+                </div>
+              </div>
+        } </div>
+        </div>
+<div class="footer-bg">
+    <div class="footer">
+        <ul class="nav">
+            <li><a href=@Url.Action("Index")>Home</a></li>
+            <li><a href=@Url.Action("Index")>About us</a></li>
+            <li><a href=@Url.Action("Index")>Mortgages</a></li>
+            <li><a href=@Url.Action("Index")>Property lawyers</a></li>
+            <li><a href=@Url.Action("Index")>Surveyors</a></li>
+            <li><a href=@Url.Action("Index")>Schools</a></li>
+            <li><a href=@Url.Action("Index")>Testimonials</a></li>
+            <li><a href=@Url.Action("Index")>Jargon buster</a></li>
+            <li><a href=@Url.Action("Index")>News</a></li>
+            <li><a href=@Url.Action("Index")>Contact Us</a></li>
+        </ul>
+        <div class="footer-logo"><img src="~/Content/img/logo.png" alt="">
+        </div>
+    </div>
+</div>
+<script>$("tr:odd").addClass('odd');</script>
+<script type="text/javascript">
+
+    $('#DownloadImage').click(function(e) {
+        e.preventDefault();
+        var files = $('#uploadImage')[0].files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Upload", "Home", new {ViewBag.Id})',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        $('#mainInfoImage').attr('src', result);
+                        $('#mainInfoImage').show();
+                        $('#deleteImage').show();
+                        $('#infoForImage').empty();
+                    },
+                    error: function(xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            } else {
+                alert("Браузер не поддерживает загрузку файлов HTML5!");
+            }
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $('#deleteImage').click(function (e) {
+        e.preventDefault();
+        var fileName = $('#mainInfoImage').attr('src');
+        var id = $('#RealEstateDto_Id').attr('value');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteImage", "Home")',
+            data: { name: fileName, realId: id},
+            success: function () {
+                $('#uploadImage').attr('value', "");
+                $('#deleteImage').hide();
+                $('#mainInfoImage').hide();
+                $('#infoForImage').empty();
+            }
+        });
+
+    })
+</script>

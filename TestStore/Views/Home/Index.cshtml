@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<TestStore.Models.EditRealEstateViewModel>
+
+<div class="main clearfix">
+    <div class="header clearfix">
+        <div class="logo"><a href=@Url.Action("Index")>Tranding Place</a>
+        </div>
+        <div class="intro">Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147</div>
+        <ul class="main-nav">
+            <li class="active">@Html.ActionLink("SALE", "Index", "Home")</li>
+            <li><a href=@Url.Action("Add")>INFO</a></li>
+            <li><a href=@Url.Action("Contact", "Admin")>CONTACT</a></li>
+            <li><a href=@Url.Action("Particulars")>PARTICULARS</a></li>
+        </ul>
+    </div>
+    <div class="holder clearfix">
+        <div class="content">
+            <h2 class="clearfix">
+                <span class="f-left">List of Real Estate</span>
+                <div class="paging f-right">
+                    @Html.Label("Show")
+                    @*<div id="size">
+                        @Html.DropDownList(ViewBag.PageSize.ToString(), ViewBag.CountPageSize as SelectList)
+                    </div>*@
+                    <select name="page" id="foo">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    @Html.Label("item per page")
+                </div>
+            </h2>
+            <div id="ddd">
+               @Html.Partial("RealEstatePartialList")
+            </div>
+            <br />
+            <br />
+            <section id="login">
+                @Html.Partial("_LoginPartial")
+            </section>
+            </div>
+        </div>
+</div>
+
+<div class="footer-bg">
+        <div class="footer">
+            <ul class="nav">
+                <li><a href=@Url.Action("Index")>Home</a></li>
+                <li><a href=@Url.Action("Index")>About us</a></li>
+                <li><a href=@Url.Action("Index")>Mortgages</a></li>
+                <li><a href=@Url.Action("Index")>Property lawyers</a></li>
+                <li><a href=@Url.Action("Index")>Surveyors</a></li>
+                <li><a href=@Url.Action("Index")>Schools</a></li>
+                <li><a href=@Url.Action("Index")>Testimonials</a></li>
+                <li><a href=@Url.Action("Index")>Jargon buster</a></li>
+                <li><a href=@Url.Action("Index")>News</a></li>
+                <li><a href=@Url.Action("Index")>Contact Us</a></li>
+        </ul>
+        <div class="footer-logo"><img src="~/Content/img/logo.png" alt="">
+        </div>
+    </div>
+</div>
+<script>$("tr:odd").addClass('odd');</script>
+<script src="~/Scripts/jquery-selectItem.js"></script>
+
+
+

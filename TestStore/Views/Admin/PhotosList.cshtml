@@ -1,0 +1,7 @@
+﻿@model IEnumerable<TestStore.Core.DTO.PhotoForGalleryDTO>
+           
+@foreach (var item in Model)
+{
+    <img id="mainInfoImage" src="@Html.DisplayTextFor(model => item.UrlImage)" alt="" width="150" height="150">
+    <a id="deleteImage" href=""><img src="~/Content/img/ico-del.png" style="position: relative; bottom: 137px;" /></a>
+}

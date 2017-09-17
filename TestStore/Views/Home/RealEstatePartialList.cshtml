@@ -1,0 +1,65 @@
+﻿@using PagedList.Mvc;
+
+@model PagedList.IPagedList<TestStore.Models.EditRealEstateViewModel>
+
+<div>
+    <table cellpadding="0" cellspacing="0" class="global-table">
+        <tbody>
+        <tr>
+            <th class="id">@Html.DisplayNameFor(model => model[0].RealEstateDto.RealEstateID)</th>
+            <th class="location">@Html.DisplayNameFor(model => model[0].RealEstateDto.Location)</th>
+            <th class="postcode">@Html.DisplayNameFor(model => model[0].RealEstateDto.Postcode)</th>
+            <th class="price">@Html.DisplayNameFor(model => model[0].RealEstateDto.Price)</th>
+            <th class="bedrooms">@Html.DisplayNameFor(model => model[0].RealEstateDto.Bedrooms)</th>
+            <th class="livingrooms">@Html.DisplayNameFor(model => model[0].RealEstateDto.LivingRooms)</th>
+            <th class="bathrooms">@Html.DisplayNameFor(model => model[0].RealEstateDto.Bathrooms)</th>
+            <th class="shower">@Html.DisplayNameFor(model => model[0].RealEstateDto.Shower)</th>
+            <th class="garden">@Html.DisplayNameFor(model => model[0].RealEstateDto.Garden)</th>
+            <th class="parking">@Html.DisplayNameFor(model => model[0].RealEstateDto.Parking)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="odd">
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Id)</td>
+                <td><a href=@Url.Action("Particulars", "Home", new {id = item.RealEstateDto.Id})> @Html.DisplayFor(modelItem => item.RealEstateDto.Location)</a></td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Postcode)</td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Bedrooms)</td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.LivingRooms)</td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Bathrooms)</td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Shower)</td>
+                <td>@Html.DisplayFor(modelItem => item.RealEstateDto.Garden)</td>
+                <td>
+                    <div class="rel">
+                        @Html.DisplayFor(modelItem => item.RealEstateDto.Parking)
+                        <ul class="btns">
+                            <li class="edit">@Html.ActionLink("Edit", "Edit", new { id = item.RealEstateDto.Id })</li>
+                            <li class="delete"><a href="#" id="go"></a></li>
+                        </ul>
+
+                        <div id="modal_form">
+                            <p class="hint" style="font-size: 18px;">Are you sure you want to delete the real estate?</p>
+                            @using (Html.BeginForm("Delete", "Home"))
+                            {
+                                @Html.Hidden("id", item.RealEstateDto.Id)
+                                <input type="submit" class="btn-add"
+                                       style="width: 70px; height: 30px; bottom: 10px; right: 90px; position: absolute;"
+                                       value="Yes"/>
+                            }
+                            <button id="modal_close" class="btn-add">No</button>
+                        </div>
+                        <div id="overlay"></div>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div class="nav-bottom clearfix">
+    <a href=@Url.Action("Add") class="btn-add"><span>Add New Item</span></a>
+    <ul class="paging-numeral f-right">
+        <li><span>@Html.PagedListPager(Model, x => Url.Action("Index", new {pageNumber = x, pageSize = ViewBag.PageSize})) @*@Html.PageLinks((TestStore.Models.PagingInfo)ViewBag.PagingInfo, x => Url.Action("Index", new { pageNumber = x, pageSize = ViewBag.PageSize }))*@</span></li>
+    </ul>
+</div>
+<script type="text/javascript" src="~/Scripts/jquery-modalform.js"></script>

@@ -1,0 +1,92 @@
+﻿@model TestStore.Models.AuthenticationViewModel
+
+<div class="main clearfix">
+    <div class="header clearfix">
+        <div class="logo">
+            <a href=@Url.Action("Index")>Tranding Place</a>
+        </div>
+        <div class="intro">Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147</div>
+        <ul class="main-nav">
+            <li><a href=@Url.Action("Index")>SALE</a></li>
+            <li class="active"><a href=@Url.Action("Add", "Home")>INFO</a></li>
+            <li><a href=@Url.Action("Contact", "Admin")>CONTACT</a></li>
+            <li><a href=@Url.Action("Particulars", "Home")>PARTICULARS</a></li>
+
+
+        </ul>
+    </div>
+    <div class="holder clearfix">
+        <div class="sidebar">
+            <div class="border-section">
+                <div class="bottom">
+                    <h3>Properties Menu</h3>
+                    <ul class="vert-nav2">
+                        <li class="active"><a class="main-btn" href=@Url.Action("Index", "Home")><span>Main Information</span></a></li>
+                        <li><a class="main-btn" href="@Url.Action("Index", "Home")"><span>Descriptions</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index", "Home")><span>Images</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index", "Home")><span>2D Plan</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index", "Home")><span>3D Plan</span></a></li>
+                        <li><a class="main-btn" href=@Url.Action("Index", "Home")><span>EPC</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+                <h2>Используйте для регистрации локальной учетной записи.</h2>
+                @using (Html.BeginForm()) {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+
+                <fieldset style="width: 20px; margin-left: 30%;">
+                    <legend>Форма регистрации</legend>
+                    <ol style="padding-left: 20px;">
+                        <li>
+                            @Html.LabelFor(m => m.Person.Email)
+                            @Html.TextBoxFor(m => m.Person.Email)
+                        </li>
+                        <br />
+                        <li>
+                            @Html.LabelFor(m => m.Person.Password)
+                            @Html.PasswordFor(m => m.Person.Password)
+                        </li>
+                        <br />
+                        <li>
+                            @Html.LabelFor(m => m.Person.FistName)
+                            @Html.TextBoxFor(m => m.Person.FistName)
+                        </li>
+                        <br />
+                        <li>
+                            @Html.LabelFor(m => m.Person.LastName)
+                            @Html.TextBoxFor(m => m.Person.LastName)
+                        </li>
+                    </ol>
+                    <input type="submit" value="Регистрация" />
+                </fieldset>
+                     <p>
+                        @Html.ActionLink("Войдите", "Login"), если у вас есть учетная запись.
+                    </p>
+           }
+        </div>
+
+    </div>
+</div>
+<div class="footer-bg">
+    <div class="footer">
+        <ul class="nav">
+            <li><a href=@Url.Action("Index")>Home</a></li>
+            <li><a href=@Url.Action("Index")>About us</a></li>
+            <li><a href=@Url.Action("Index")>Mortgages</a></li>
+            <li><a href=@Url.Action("Index")>Property lawyers</a></li>
+            <li><a href=@Url.Action("Index")>Surveyors</a></li>
+            <li><a href=@Url.Action("Index")>Schools</a></li>
+            <li><a href=@Url.Action("Index")>Testimonials</a></li>
+            <li><a href=@Url.Action("Index")>Jargon buster</a></li>
+            <li><a href=@Url.Action("Index")>News</a></li>
+            <li><a href=@Url.Action("Index")>Contact Us</a></li>
+        </ul>
+        <div class="footer-logo">
+            <img src="~/Content/img/logo.png" alt="">
+        </div>
+    </div>
+</div>
+<script>$("tr:odd").addClass('odd');</script>

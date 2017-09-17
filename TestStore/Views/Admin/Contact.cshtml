@@ -1,0 +1,226 @@
+﻿@model TestStore.Models.SendFormViewModel
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+<script src="~/Scripts/geocoding.js"></script>
+<script src="~/Scripts/jquery-autocomplete.js"></script>
+
+
+<div class="main clearfix">
+        <div class="header clearfix">
+            <div class="logo"><a href="./CONTACT.html">Tranding Place</a></div>
+            <div class="intro">Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147</div>
+            <ul class="main-nav">
+                <li><a href=@Url.Action("Index", "Home")>SALE</a></li>
+                <li><a href=@Url.Action("Add", "Home")>INFO</a></li>
+                <li class="active"><a href=@Url.Action("Contact", "Admin")>CONTACT</a></li>
+            </ul>
+        </div>
+        <div class="holder clearfix">
+            <div class="sidebar">
+                <div class="border-section">
+                    <div class="bottom">
+                        <h3>Find a Property</h3>
+                        <ul class="vert-nav2">
+                            <li><a href=@Url.Action("Contact", "Admin") class="main-btn"><span>To Buy</span></a></li>
+                            <li><a href=@Url.Action("Contact", "Admin") class="main-btn"><span>To Rent</span></a></li>
+                            <li><a href=@Url.Action("Contact", "Admin") class="main-btn"><span>Register With Us</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="left-nav">
+                    <ul class="vert-nav">
+                        <li><a href=@Url.Action("Contact", "Admin")>About Us</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Mortgages</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Property Lawyers</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Surveyors</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Schools</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Testimonials</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Jargon Buster</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>News</a></li>
+                        <li><a href=@Url.Action("Contact", "Admin")>Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="border-section">
+                    <div class="bottom">
+                        <div class="logos-sec">
+                            <a href=@Url.Action("Contact", "Admin")><img src="~/Content/img/logo-1.gif" alt=""></a>
+                            <a href=@Url.Action("Contact", "Admin")><img src="~/Content/img/logo-2.gif" alt=""></a>
+                            <a href=@Url.Action("Contact", "Admin")><img src="~/Content/img/logo-3.gif" alt=""></a>
+                            <a href=@Url.Action("Contact", "Admin")><img src="~/Content/img/logo-4.gif" alt=""></a>
+                            <a href=@Url.Action("Contact", "Admin")><img src="~/Content/img/logo-5.gif" alt=""></a>
+                            <a href=@Url.Action("Contact", "Admin")><img src="~/Content/img/logo-6.gif" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <h1>Contact us</h1>
+                <div class="clearfix">
+                    <div class="section-1">
+                        <p>Are you considering selling, buying, letting or renting? We offer professional property services designed to meet your needs... Experience the difference, call us now on 020 8558 1147.</p>
+                        <p>
+                            46 Church Lane <br>
+                            Leytonstone, London <br>
+                            E11 1HE
+                        </p>
+                        <dl class="contact-information">
+                            <dt>Tel:</dt>
+                            <dd>020 8558 1147</dd>
+                            <dt>Fax: </dt>
+                            <dd>020 8556 6665</dd>
+                            <dt>Email:</dt>
+                            <dd>info@tradingplacesproperty.com</dd>
+                        </dl>
+                    </div>
+                    <div class="section-2">
+                        <div class="border-sec-1">
+                            <div class="top">
+                                <div class="bottom">
+                                    <div class="map-section" id="map-canvas"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="border-section-l">
+        <div class="top">
+            <div class="bottom">
+                <div class="form">
+                    <span class="legend">Mandatory field <span class="required">*</span></span>
+                    <div class="row clearfix">
+                        <label for="t">Title <span class="required">*</span></label>
+                        <div class="editor-field">
+                            @*<input type="text" id="lang" style=" width: 250px;" placeholder="Select a title from the list or enter your own"/>*@
+
+                            @Html.TextBoxFor(model => model.Title, new
+                                           {
+                                               id = "lang",
+                                               placeholder = "Select a title from the list or enter your own",
+                                               style = " width: 250px;"
+                                           })
+                            <div id="langsList"></div>
+                            @*@Html.EditorFor(model => model.Title)
+                              @Html.ValidationMessageFor(model => model.Title)*@
+                                </div>
+                                </div>
+                            <div class="row clearfix">
+                                <label for="n">Name <span class="required">*</span></label>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.Name)
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <label for="n2">Phone number <span class="required">*</span> </label>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.PhoneNumber)
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <label for="contact">Best time to contact you</label>
+                                <div id="contact" class="contact">
+                                    <div class="clearfix anytime-item">
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.AnyTime)
+                                    @Html.EditorFor(model => model.TimeToContactVieModel.AnyTime)
+                                    </div>
+                                    <div class="clearfix">
+                                        <ul class="item  item-1">
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.MondayAM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.MondayAM)
+                                            </li>
+                                            <li>@Html.LabelFor(model => model.TimeToContactVieModel.MondayPM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.MondayPM)
+                                            </li>
+                                        </ul>
+                                        <ul class="item">
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.TuesdayAM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.TuesdayAM)
+                                            </li>
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.TuesdayPM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.TuesdayPM)
+                                            </li>
+                                        </ul>
+                                        <ul class="item">
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.WednesdayAM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.WednesdayAM)
+                                            </li>
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.WednesdayPM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.WednesdayPM)
+                                            </li>
+                                        </ul>
+                                        <ul class="item">
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.ThursdayAM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.ThursdayAM)
+                                            </li>
+                                            <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.ThursdayPM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.ThursdayPM)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <ul class="item item-1 friday-item">
+                                        <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.FridayAM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.FridayAM)
+                                        </li>
+                                        <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.FridayPM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.FridayPM)
+                                        </li>
+                                    </ul><ul class="item">
+                                        <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.SaturdayAM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.SaturdayAM)
+                                        </li>
+                                        <li>
+                                    @Html.LabelFor(model => model.TimeToContactVieModel.SaturdayPM)
+                                    @Html.CheckBoxFor(model => model.TimeToContactVieModel.SaturdayPM)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <label for="#">Message <span class="required">*</span></label>
+                                    @Html.EditorFor(model => model.Message)
+                                    @Html.ValidationMessageFor(model => model.Message)
+                            </div>
+                            <div class="row clearfix">
+                                <label for="#">&nbsp;</label>
+                                    <input type="submit" value="Send" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bg">
+                        <div class="footer">
+                            <ul class="nav">
+                                <li><a href=@Url.Action("Contact", "Admin")>Home</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>About us</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Mortgages</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Property lawyers</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Surveyors</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Schools</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Testimonials</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Jargon buster</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>News</a></li>
+                                <li><a href=@Url.Action("Contact", "Admin")>Contact Us</a></li>
+                            </ul>
+                            <div class="footer-logo"><img src="~/Content/img/logo.png" alt=""></div>
+                        </div>
+</div>
